@@ -6,10 +6,10 @@
 
 # Colouring command line things
 ##################################################
-GREP_OPTIONS='--color=auto' # color grep output unless it's being piped or pushed into a file
-alias l.='ls -d .* --color=tty'
-alias ll='ls -l .* --color=tty'
-alias ls='ls -d .* --color=tty'
+alias grep='grep --color=auto'
+alias la='ls -lah --color=tty'
+alias ll='ls -lh --color=tty'
+alias ls='ls --color=tty'
 alias vi='vim'
 alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
 
@@ -82,3 +82,4 @@ PS1="[${UC}\u${RC}${BBLACK}@${HC}\h ${RC}\W${DF}] ${SC}${DF} "
 
 
 # /.bashrc
+
