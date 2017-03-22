@@ -15,8 +15,12 @@ alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-ti
 
 # Solarflare stuff
 ##################################################
-export PATH=$PATH:/home/chp/ptp_testing/chip_test/scripts/ # run things like 'snap -- trivial'
+export PATH=$PATH:/home/chp/nic_repos/chip_test/scripts/ # run things like 'snap -- trivial'
 alias sudop='sudo env "PATH=$PATH"' # sudo retaining original user's path
+
+# Terminal title
+##################################################
+PROMPT_COMMAND='echo -ne "\033]0;$(hostname)\007"' # terminal title = hostname
 
 # Prompt!
 ##################################################
