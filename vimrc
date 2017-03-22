@@ -11,10 +11,6 @@ colorscheme default
 " # Line numbering
 " ################################################
 set number
-if v:version > 703 " only supported above vim 7.3
-	set relativenumber
-finish
-endif
 
 " # Highlighting
 " ################################################
