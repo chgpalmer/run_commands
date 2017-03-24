@@ -22,6 +22,14 @@ alias sudop='sudo env "PATH=$PATH"' # sudo retaining original user's path
 ##################################################
 PROMPT_COMMAND='echo -ne "\033]0;$(hostname)\007"' # terminal title = hostname
 
+# Mercurial bookmark
+##################################################
+function hg_bookmark
+{
+    hg_bookmark=$(hg bookmarks 2> /dev/null | grep "^ \*" | sed 's/^ \* //g' | sed 's/ *[0-9]:[0-9a-e]*$//g')
+    hg_bookmark="[$hg_bookmark]"
+}
+
 # Prompt!
 ##################################################
 #https://www.reddit.com/r/linux/comments/2uf5uu/this_is_my_bash_prompt_which_is_your_favorite/
@@ -54,7 +62,13 @@ WHITE='\[\e[0;37m\]'
 BWHITE='\[\e[1;37m\]'
 BGWHITE='\[\e[1;37m\]'
 
-PROMPT_COMMAND=smile_prompt
+PROMPT_COMMAND=prompt_command
+
+function prompt_command
+{
+    hg_bookmark    
+    smile_prompt
+}
 
 function smile_prompt
 {
@@ -65,7 +79,7 @@ then
 SC=""
 else
 #frowney
-SC="${RED}:("
+SC=" ${RED}:("
 fi
 if [ $UID -eq 0 ]
 then
@@ -81,9 +95,8 @@ HC="${BMAGENTA}"
 RC="${BWHITE}"
 #default color
 DF='\[\e[0m\]'
-PS1="[${UC}\u${RC}${BBLACK}@${HC}\h ${RC}\W${DF}] ${SC}${DF} "
+PS1="[${UC}\u${RC}${BBLACK}@${HC}\h ${RC}\W${DF}]$hg_bookmark${SC}${DF} "
 }
-
 
 # /.bashrc
 
