@@ -20,20 +20,12 @@ alias sudop='sudo env "PATH=$PATH"' # sudo retaining original user's path
 
 # Terminal title
 ##################################################
-PROMPT_COMMAND='echo -ne "\033]0;$(hostname)\007"' # terminal title = hostname
-
-# Mercurial bookmark
-##################################################
-function hg_bookmark
-{
-    hg_bookmark=$(hg bookmarks 2> /dev/null | grep "^ \*" | sed 's/^ \* //g' | sed 's/ *[0-9]:[0-9a-e]*$//g')
-    hg_bookmark="[$hg_bookmark]"
-}
+#PROMPT_COMMAND='echo -ne "\033]0;$(hostname)\007"' # terminal title = hostname
+#PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/~}\007"'
 
 # Prompt!
 ##################################################
-#https://www.reddit.com/r/linux/comments/2uf5uu/this_is_my_bash_prompt_which_is_your_favorite/
-## Colors?  Used for the prompt.
+# Colors
 #Regular text color
 BLACK='\[\e[0;30m\]'
 #Bold text color
@@ -62,32 +54,39 @@ WHITE='\[\e[0;37m\]'
 BWHITE='\[\e[1;37m\]'
 BGWHITE='\[\e[1;37m\]'
 
+# PROMPT_COMMAND is run every line
 PROMPT_COMMAND=prompt_command
 
 function prompt_command
 {
-    hg_bookmark    
-    smile_prompt
+  local EXIT="$?"
+  prompt
+  hg_prompt
+  smile_prompt $EXIT
+  prompt_symbol
+  PS1=$PS1" "
+  echo -ne "\033]0;$(hostname)\007" # terminal title = hostname
 }
 
-function smile_prompt
+function prompt_symbol
 {
-if [ "$?" -eq "0" ]
-then
-#smiley
-#SC="${GREEN}:)"
-SC=""
+if [ $UID -eq 0 ]; then
+  #root
+  PS1+=#
 else
-#frowney
-SC=" ${RED}:("
+  #normal user
+  PS1+=$
 fi
-if [ $UID -eq 0 ]
-then
-#root user color
-UC="${RED}"
+}
+
+function prompt
+{
+if [ $UID -eq 0 ]; then
+  #root user color
+  UC="${RED}"
 else
-#normal user color
-UC="${BMAGENTA}"
+  #normal user color
+  UC="${BMAGENTA}"
 fi
 #hostname color
 HC="${BMAGENTA}"
@@ -95,7 +94,27 @@ HC="${BMAGENTA}"
 RC="${BWHITE}"
 #default color
 DF='\[\e[0m\]'
-PS1="[${UC}\u${RC}${BBLACK}@${HC}\h ${RC}\W${DF}]$hg_bookmark${SC}${DF} "
+#PS1="[${UC}\u${RC}${BBLACK}@${HC}\h ${RC}\W${DF}]${DF}"
+PS1="[${HC}\h:${RC}\W${DF}]${DF}"
+}
+
+
+function smile_prompt
+{
+DF='\[\e[0m\]'
+if [[ $1 != 0 ]]; then
+    PS1+=${RED}":("${DF}
+#else
+#    PS1+=":)"
+fi
+}
+
+function hg_prompt
+{
+foo=$(hg bookmarks 2> /dev/null | grep "^ \*" | sed 's/^ \* //g' | sed 's/ *[0-9]*:[0-9a-z]*$//g')
+if [ -n "$foo" ]; then
+    PS1+="[$foo]\n"
+fi
 }
 
 # /.bashrc
