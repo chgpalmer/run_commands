@@ -60,11 +60,13 @@ PROMPT_COMMAND=prompt_command
 function prompt_command
 {
   local EXIT="$?"
-  prompt
+  local DF='\[\e[0m\]'
+
+  base_prompt
   hg_prompt
   smile_prompt $EXIT
   prompt_symbol
-  PS1=$PS1" "
+  PS1=$PS1${DF}" "
   echo -ne "\033]0;$(hostname)\007" # terminal title = hostname
 }
 
@@ -79,29 +81,28 @@ else
 fi
 }
 
-function prompt
+function base_prompt
 {
 if [ $UID -eq 0 ]; then
   #root user color
-  UC="${RED}"
+  local UC="${RED}"
 else
   #normal user color
-  UC="${BMAGENTA}"
+  local UC="${BMAGENTA}"
 fi
 #hostname color
-HC="${BMAGENTA}"
+local HC="${BMAGENTA}"
 #regular color
-RC="${BWHITE}"
+local RC="${BWHITE}"
 #default color
-DF='\[\e[0m\]'
+local DF='\[\e[0m\]'
 #PS1="[${UC}\u${RC}${BBLACK}@${HC}\h ${RC}\W${DF}]${DF}"
-PS1="[${HC}\h:${RC}\W${DF}]${DF}"
+PS1="[${HC}\h${BBLACK}:${RC}\W${DF}]"
 }
-
 
 function smile_prompt
 {
-DF='\[\e[0m\]'
+local DF='\[\e[0m\]'
 if [[ $1 != 0 ]]; then
     PS1+=${RED}":("${DF}
 #else
@@ -111,9 +112,11 @@ fi
 
 function hg_prompt
 {
-foo=$(hg bookmarks 2> /dev/null | grep "^ \*" | sed 's/^ \* //g' | sed 's/ *[0-9]*:[0-9a-z]*$//g')
-if [ -n "$foo" ]; then
-    PS1+="[$foo]\n"
+local DF='\[\e[0m\]'
+local branch=$(hg branch 2> /dev/null)
+local bookmark=$(hg bookmarks 2> /dev/null | grep "^ \*" | sed 's/^ \* //g' | sed 's/ *[0-9]*:[0-9a-z]*$//g')
+if [ -n "$branch" ]; then
+    PS1+="[${BBLUE}$branch${BBLACK}:${BWHITE}$bookmark${DF}]\n"
 fi
 }
 
