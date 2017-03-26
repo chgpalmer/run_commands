@@ -50,6 +50,7 @@ set wildmenu		" better command line completion
 set nocompatible	" Use Vim defaults (much better!)
 set nostartofline       " tries to go to the same point when moving between
                         "  lines, breaking compatibility with vi but who cares
+set backspace=indent,eol,start  " backspace through newlines in insert mode etc...
 
 
 " # /.vimrc
