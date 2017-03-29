@@ -18,6 +18,7 @@ alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-ti
 export PATH=$PATH:/home/chp/nic_repos/chip_test/scripts/ # needed to have correct mmaketool in path when running make for snapper
 alias snap-m1='sudo EF_USERBUILD=medford1 /home/chp/nic_repos/chip_test/scripts/snap'
 alias snap-m2='sudo EF_USERBUILD=medford2 /home/chp/nic_repos/chip_test/scripts/snap'
+alias esnap-m2='/home/chp/nic_repos/chip_test/src/tools/cosim/esnap --chip medford2 --farmi-lite --dutcfg min --runtime mcfw_cosim_eftest_medford2 --init'
 
 # Terminal title
 ##################################################
