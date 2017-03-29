@@ -15,8 +15,9 @@ alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-ti
 
 # Solarflare stuff
 ##################################################
-export PATH=$PATH:/home/chp/nic_repos/chip_test/scripts/ # run things like 'snap -- trivial'
-alias sudop='sudo env "PATH=$PATH"' # sudo retaining original user's path
+export PATH=$PATH:/home/chp/nic_repos/chip_test/scripts/ # needed to have correct mmaketool in path when running make for snapper
+alias snap-m1='sudo EF_USERBUILD=medford1 /home/chp/nic_repos/chip_test/scripts/snap'
+alias snap-m2='sudo EF_USERBUILD=medford2 /home/chp/nic_repos/chip_test/scripts/snap'
 
 # Terminal title
 ##################################################
