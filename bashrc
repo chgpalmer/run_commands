@@ -3,6 +3,8 @@
 # .bashrc
 # Charlie Palmer
 ################################################################################
+# Sources:
+# https://www.ukuug.org/events/linux2003/papers/bash_tips/
 
 # Colouring command line things
 ##################################################
@@ -12,13 +14,23 @@ alias ll='ls -lh --color=tty'
 alias ls='ls --color=tty'
 alias vi='vim'
 alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
+alias ssh='ssh -X'
+
+# Do once things
+##################################################
+shopt -s checkwinsize # stops the prompt occasionally eating itself
+shopt -s histappend # works with `history -a` in PROMPT_COMMAND
 
 # Solarflare stuff
 ##################################################
-export PATH=$PATH:/home/chp/nic_repos/chip_test/scripts/ # needed to have correct mmaketool in path when running make for snapper
-alias snap-m1='sudo EF_USERBUILD=medford1 /home/chp/nic_repos/chip_test/scripts/snap'
-alias snap-m2='sudo EF_USERBUILD=medford2 /home/chp/nic_repos/chip_test/scripts/snap'
-alias esnap-m2='/home/chp/nic_repos/chip_test/src/tools/cosim/esnap --chip medford2 --farmi-lite --dutcfg min --runtime mcfw_cosim_eftest_medford2 --init'
+hostname=$(hostname);
+if [[ $hostname == *"solarflare"* ]]; then
+  export PATH=$PATH:/home/chp/nic_repos/chip_test/scripts/ # needed to have correct mmaketool in path when running make for snapper
+  alias snap-m1='sudo EF_USERBUILD=medford1 /home/chp/nic_repos/chip_test/scripts/snap'
+  alias snap-m2='sudo EF_USERBUILD=medford2 /home/chp/nic_repos/chip_test/scripts/snap'
+  alias esnap-m2='/home/chp/nic_repos/chip_test/src/tools/cosim/esnap --chip medford2 --farmi-lite --dutcfg min --runtime mcfw_cosim_eftest_medford2'
+  export CADENCE_USER=chp
+fi
 
 # Terminal title
 ##################################################
@@ -68,7 +80,9 @@ function prompt_command
   hg_prompt
   smile_prompt $EXIT
   prompt_symbol
+  history -a # append previous line to disk
   PS1=$PS1${DF}" "
+
   echo -ne "\033]0;$(hostname)\007" # terminal title = hostname
 }
 
