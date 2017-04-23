@@ -23,8 +23,11 @@ shopt -s histappend # works with `history -a` in PROMPT_COMMAND
 
 # Solarflare stuff
 ##################################################
-hostname=$(hostname);
-if [[ $hostname == *"solarflare"* ]]; then
+# timeout ping localhost 0.014 and 0.005, chp-desktop arch laptop respectively 
+rc=$(timeout 0.02 ping -c 1 uklogin.uk.solarflarecom.com &>/dev/null; echo $?);
+# if we can ping uklogin, assume on solarflare network
+if [ $rc -eq 0 ]; then
+  alias seth="java -jar /home/ns/seth/deployed/seth.jar"
   export PATH=$PATH:/home/chp/nic_repos/chip_test/scripts/ # needed to have correct mmaketool in path when running make for snapper
   alias snap-m1='sudo EF_USERBUILD=medford1 /home/chp/nic_repos/chip_test/scripts/snap'
   alias snap-m2='sudo EF_USERBUILD=medford2 /home/chp/nic_repos/chip_test/scripts/snap'
