@@ -5,7 +5,7 @@
 " ##############################################################################
 
 " # Allow saving of files as sudo when I forgot to start vim using sudo
-cmap w!! w !sudo tee > /dev/null %
+command W silent execute 'write !sudo tee ' . shellescape(@%, 1) . ' >/dev/null'
 
 " # Colorscheme
 " ################################################
