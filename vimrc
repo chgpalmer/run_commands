@@ -4,6 +4,9 @@
 " # Charlie Palmer
 " ##############################################################################
 
+" # Allow saving of files as sudo when I forgot to start vim using sudo
+command W silent execute 'write !sudo tee ' . shellescape(@%, 1) . ' >/dev/null'
+
 " # Colorscheme
 " ################################################
 colorscheme default

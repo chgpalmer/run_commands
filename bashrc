@@ -19,7 +19,10 @@ alias ssh='ssh -X'
 # Do once things
 ##################################################
 shopt -s checkwinsize # stops the prompt occasionally eating itself
-shopt -s histappend # works with `history -a` in PROMPT_COMMAND
+shopt -s histappend # append session HIST to HISTFILE, possibly not needed with 'history -a' in PROMPT_COMMAND, but it won't hurt
+HISTSIZE=10000 # history lines available in session
+HISTFILESIZE=10000 # total history lines stored
+HISTCONTROL=ignoredups # dont store line if same as prev (session) line
 
 export PATH=$PATH:~/.local/bin
 
