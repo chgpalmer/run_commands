@@ -21,6 +21,8 @@ alias ssh='ssh -X'
 shopt -s checkwinsize # stops the prompt occasionally eating itself
 shopt -s histappend # works with `history -a` in PROMPT_COMMAND
 
+export PATH=$PATH:~/.local/bin
+
 # Solarflare stuff
 ##################################################
 # timeout ping localhost 0.014 and 0.005, chp-desktop arch laptop respectively 
