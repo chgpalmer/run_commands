@@ -29,7 +29,12 @@ export PATH=$PATH:~/.local/bin
 # Solarflare stuff
 ##################################################
 # timeout ping localhost 0.014 and 0.005, chp-desktop arch laptop respectively 
-rc=$(timeout 0.02 ping -c 1 uklogin.uk.solarflarecom.com &>/dev/null; echo $?);
+if $(timeout 0.02 echo " " &>/dev/null); then # if timeout copes with sub-second values...
+  rc=$(timeout 0.02 ping -c 1 uklogin.uk.solarflarecom.com &>/dev/null; echo $?);
+else
+  rc=$(timeout 1 ping -c 1 uklogin.uk.solarflarecom.com &>/dev/null; echo $?);
+fi
+  
 # if we can ping uklogin, assume on solarflare network
 if [ $rc -eq 0 ]; then
   alias seth="java -jar /home/ns/seth/deployed/seth.jar"
