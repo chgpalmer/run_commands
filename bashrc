@@ -15,6 +15,7 @@ alias ls='ls --color=tty'
 alias vi='vim'
 alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
 alias ssh='ssh -X'
+alias vimt='vim -c "NERDTree" $1'
 
 # Do once things
 ##################################################
