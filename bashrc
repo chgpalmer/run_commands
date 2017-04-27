@@ -9,6 +9,8 @@
 # Colouring command line things
 ##################################################
 alias grep='grep --color=auto'
+alias grepc='grep --color=always'
+alias less='less -R'              # print ANSI colours when piped from grepc
 alias la='ls -lah --color=tty'
 alias ll='ls -lh --color=tty'
 alias ls='ls --color=tty'
