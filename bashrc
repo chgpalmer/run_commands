@@ -14,6 +14,9 @@ alias less='less -R'              # print ANSI colours when piped from grepc
 alias la='ls -lah --color=tty'
 alias ll='ls -lh --color=tty'
 alias ls='ls --color=tty'
+alias tree='tree -C'
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01' # colour gcc v4.9+
+
 alias vi='vim'
 alias which='alias | /usr/bin/which --tty-only --read-alias --show-dot --show-tilde'
 alias ssh='ssh -X'
@@ -41,11 +44,16 @@ fi
 # if we can ping uklogin, assume on solarflare network
 if [ $rc -eq 0 ]; then
   alias seth="java -jar /home/ns/seth/deployed/seth.jar"
-  export PATH=$PATH:/home/chp/nic_repos/chip_test/scripts/ # needed to have correct mmaketool in path when running make for snapper
-  alias snap-m1='sudo EF_USERBUILD=medford1 /home/chp/nic_repos/chip_test/scripts/snap'
-  alias snap-m2='sudo EF_USERBUILD=medford2 /home/chp/nic_repos/chip_test/scripts/snap'
-  alias esnap-m2='/home/chp/nic_repos/chip_test/src/tools/cosim/esnap --chip medford2 --farmi-lite --dutcfg min --runtime mcfw_cosim_eftest_medford2'
+  export PATH=$PATH:/home/chp/src/chip_test/scripts/ # needed to have correct mmaketool in path when running make for snapper
+  alias snap-m1='sudo EF_USERBUILD=medford1 /home/chp/src/chip_test/scripts/snap'
+  alias snap-m2='sudo EF_USERBUILD=medford2 /home/chp/src/chip_test/scripts/snap'
+  alias esnap-m2='/home/chp/src/chip_test/src/tools/cosim/esnap --chip medford2 --farmi-lite --dutcfg min --runtime mcfw_cosim_eftest_medford2'
   export CADENCE_USER=chp
+  alias src='cd /home/chp/.local/src/; if $(hash realpath); then realpath -P .; fi; ll'
+  alias ct='cd /home/chp/.local/src/chip_test/; if $(hash realpath); then realpath -P .; fi; ll'
+  alias cte='cd /home/chp/.local/src/chip_test_extra/; if $(hash realpath); then realpath -P .; fi; ll'
+  alias fws='cd /home/chp/.local/src/firmwaresrc/; if $(hash realpath); then realpath -P .; fi; ll'
+  alias v5='cd /home/chp/.local/src/v5/; if $(hash realpath); then realpath -P .; fi; ll'
 fi
 
 # Terminal title
